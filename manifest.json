@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "ChatMap",
+  "version": "0.1.0",
+  "description": "给AI对话(ChatGPT/Claude/Gemini等)加一个分支思维导图侧边栏,主线和分支问题一键跳转",
+  "permissions": ["storage", "sidePanel"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*"
+      ],
+      "js": ["i18n.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "ChatMap"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  }
+}

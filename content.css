@@ -1,0 +1,87 @@
+/* content.css */
+
+.chatmap-hover {
+  outline: 2px dashed #ff9800 !important;
+  outline-offset: 2px;
+  cursor: crosshair !important;
+}
+
+.chatmap-marked {
+  outline: 2px solid #4caf50 !important;
+  outline-offset: 2px;
+  transition: outline-color 0.3s ease;
+}
+
+body.chatmap-marking,
+body.chatmap-marking * {
+  cursor: crosshair !important;
+}
+
+body.chatmap-marking #chatmap-editor,
+body.chatmap-marking #chatmap-editor * {
+  cursor: default !important;
+}
+
+body.chatmap-marking #chatmap-editor-input {
+  cursor: text !important;
+}
+
+.chatmap-editor-box {
+  width: 240px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  cursor: default;
+}
+
+.chatmap-editor-title {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.chatmap-editor-breadcrumb {
+  font-size: 11px;
+  color: #1976d2;
+  background: #e8f0fe;
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+#chatmap-editor-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 8px;
+  cursor: text;
+}
+
+.chatmap-editor-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.chatmap-editor-actions button {
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#chatmap-editor-ok {
+  background: #4caf50;
+  color: #fff;
+  border-color: #4caf50;
+}

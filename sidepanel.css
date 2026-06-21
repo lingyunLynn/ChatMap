@@ -1,0 +1,222 @@
+/* sidepanel.css */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  color: #222;
+  background: #fafafa;
+}
+
+#app {
+  padding: 10px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.toolbar button {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.toolbar button:hover {
+  border-color: #999;
+}
+
+.toolbar button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.toolbar button:disabled:hover {
+  border-color: #ddd;
+}
+
+.toolbar button.active {
+  background: #ff9800;
+  color: #fff;
+  border-color: #ff9800;
+}
+
+#toggleAuto.active {
+  background: #4caf50;
+  border-color: #4caf50;
+}
+
+#toggleBranch.active {
+  background: #7e57c2;
+  border-color: #7e57c2;
+  color: #fff;
+}
+
+.next-status {
+  background: #f3e9fb;
+  color: #7e57c2;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.next-status:empty {
+  display: none;
+}
+
+.auto-hint {
+  display: none;
+  background: #eaf7ea;
+  color: #2e7d32;
+  font-size: 11px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.auto-hint.show {
+  display: block;
+}
+
+.hint {
+  color: #888;
+  font-size: 12px;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.status-bar {
+  background: #e8f0fe;
+  color: #1976d2;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.status-bar:empty {
+  display: none;
+}
+
+ul.chatmap-tree {
+  list-style: none;
+  margin: 0;
+  padding-left: 14px;
+  border-left: 1px dashed #ccc;
+}
+
+ul.chatmap-tree.root-tree {
+  border-left: none;
+  padding-left: 0;
+}
+
+.chatmap-node {
+  margin: 4px 0;
+}
+
+.chatmap-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chatmap-toggle {
+  width: 14px;
+  flex-shrink: 0;
+  text-align: center;
+  cursor: pointer;
+  color: #888;
+  font-size: 11px;
+  user-select: none;
+}
+
+.chatmap-toggle-leaf {
+  cursor: default;
+  color: #ccc;
+}
+
+.chatmap-number {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: #999;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.chatmap-count {
+  color: #aaa;
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.chatmap-delete {
+  color: #e57373;
+  cursor: pointer;
+  font-size: 11px;
+  margin-left: 4px;
+  flex-shrink: 0;
+  padding: 0 3px;
+}
+
+.chatmap-delete:hover {
+  color: #c62828;
+}
+
+.chatmap-node-label {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  max-width: 230px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chatmap-node-label:hover {
+  border-color: #999;
+}
+
+.chatmap-node-label.anchor {
+  border-color: #4caf50;
+  background: #eaf7ea;
+  font-weight: 600;
+}
+
+.chatmap-inline-edit {
+  flex: 1;
+  min-width: 0;
+  max-width: 230px;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 5px 9px;
+  border: 1px solid #1976d2;
+  border-radius: 6px;
+  outline: none;
+  background: #fff;
+  color: #222;
+}
+
+.empty-state {
+  color: #999;
+  font-size: 12px;
+  padding: 20px 0;
+  text-align: center;
+}

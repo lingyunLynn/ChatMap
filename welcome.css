@@ -1,0 +1,92 @@
+/* welcome.css */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #fafafa;
+  color: #222;
+}
+
+#card {
+  width: 360px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  padding: 32px 28px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0 0 24px;
+}
+
+.lang-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.lang-buttons button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.lang-buttons button:hover {
+  border-color: #1976d2;
+  background: #f3f8fe;
+}
+
+.lang-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lang-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.lang-sub {
+  font-size: 11px;
+  color: #999;
+}
+
+.confirm {
+  margin-top: 20px;
+  font-size: 13px;
+  color: #2e7d32;
+  background: #eaf7ea;
+  border-radius: 8px;
+  padding: 10px 12px;
+  line-height: 1.6;
+}
+
+.confirm.hidden {
+  display: none;
+}

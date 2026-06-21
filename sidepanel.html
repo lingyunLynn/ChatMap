@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <title>ChatMap</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <div id="app">
+    <div class="toolbar">
+      <button id="toggleMark">🖊 手动标记：关</button>
+      <button id="toggleAuto">🤖 自动记录：关</button>
+      <button id="toggleBranch">🔀 下一条：并列</button>
+      <button id="undoBtn" title="撤销上一步操作（标记/删除/改名/清空）">↶ 撤销</button>
+      <button id="redoBtn" title="重做（取消撤销）">↷ 重做</button>
+      <button id="resetBtn" title="清空当前对话的导图">🗑 清空</button>
+    </div>
+    <div id="autoHint" class="auto-hint">自动记录已开启：在输入框按Enter发送问题，会自动记一笔。</div>
+    <div id="status" class="status-bar"></div>
+    <div id="nextStatus" class="next-status"></div>
+    <div id="hint" class="hint">
+      点击"手动标记：开"，然后去页面里点你想记录的那条消息，它就会出现在下面的图里。
+      之后再点图里的某个节点，就能跳回那条消息，并把它设为新的"当前位置"。
+    </div>
+    <div id="tree"></div>
+  </div>
+  <script src="i18n.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
