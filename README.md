@@ -1,128 +1,100 @@
 # ChatMap
 
-一个浏览器插件（Chrome / Edge 等基于 Chromium 的浏览器），给 AI 对话页面加一个侧边栏，
-把你在对话里手动标记的消息变成一棵可点击跳转的树状导图。主要解决这个痛点：
+[English ↓](#english)
 
-> 在主线问题下面接了一个分支问题，问了几轮之后想跳回主线，结果要往上翻一大段聊天记录。
+跟AI聊天最烦的一件事：聊到一半，突然想到一个相关但岔开的问题，问完之后想接着刚才没问完的话题往下聊，结果要往上翻一大段聊天记录才能找到自己刚才问的是哪一句。聊得越久，越难翻。
 
-## 效果
+ChatMap就是为了解决这件事做的。给ChatGPT / Claude / Gemini这类AI对话页面加一个侧边栏，把你问的每个问题变成地图上的一个点。主线问题接着往下排成一排，岔开问的单独挂一支分支。想接着刚才的话题往下问，点一下地图上对应的点，直接跳回去，不用翻聊天记录。
 
-- 侧边栏显示一棵树，像书籍目录一样带编号（1 / 1.1 / 1.1.2…），同一个节点下可以同时挂好几条分支，
-  分支底下还能再分支，层级不限。
-- 标记消息的时候会弹出一个小输入框，让你自己写一句简短描述当时问的是什么，不是简单截取原文。
-- 节点多了可以点前面的小箭头折叠收起整条分支，收起后会显示"折叠了几条"。
-- 双击侧边栏里的任意节点可以重新改标题，是原地变成输入框改，不会弹出浏览器自带的提示框。
-- 点节点 = 自动滚动回页面里对应的那条消息，并把它设为新的"当前位置"。
-- **默认并列，分支才特殊标记**：新标记的消息默认跟"当前位置"并列（也就是接着主线往下走），不会越标越深；
-  只有你主动点一下"🔀 下一条：并列"切换成"子问题"状态，下一条才会真的往下分一层，标完那一条自动恢复成并列。
-  这样正常聊天的主线在导图里是一排平的，只有你真正想做分支的时候才会出现层级。
-- 标记的时候，输入框上方会清楚写着"将归入：xxx（并列 / 子问题）"，不用再猜这条消息会被归到哪一级下面。
-  侧边栏顶部也常驻显示"当前位置"和"下一条将归入"，随时能看。
-- 标错了可以单独删除某个节点（连同它底下的子节点），不用整个清空重来。
-- **撤销 / 重做**：标记、删除、改名、清空，这几个会改动导图的操作都能撤销，点一下"↶ 撤销"退回上一步，
-  连续点可以一步步往前退；退多了想要回来，点"↷ 重做"往回走，跟Word一样想撤销几步撤销几步，想重做几步重做几步。
-  注意如果撤销之后又做了新的操作，之前撤销掉的那些步骤就不能再重做了（这是所有编辑器的通用逻辑）。
-  单纯点节点跳转看内容不算操作，不会被计入撤销，不会把真正想撤销的那一步挤到后面去。
-- **自动记录**：开了之后，不用再自己点页面去标记，只要在输入框里打字按Enter发送，就会自动把这句话记成一个新节点，
-  标题直接用你打的那段文字，默认跟上一条并列。手动标记按钮还在，两个互不影响：自动负责"每个问题都记一笔"，
-  手动用来额外标记一些自动模式抓不到的东西（比如想单独标一段AI的回答）。
-- **中英双语**：插件第一次被安装上的时候，会自动弹出一个页面，让你选"中文"还是"English"，选完之后
-  侧边栏和标记弹窗里的所有文字都会用你选的那个语言。这个选择目前是装的时候选一次，没有常驻的切换开关。
+## 适合用在哪些场景
 
-## 安装方法（开发者模式，不用上架商店）
+- 跟AI做研究、写论文，主线问题一直往下推，中途想深挖某个细节，问完接着主线往下问
+- 调试代码，主线在排查bug，中途好奇问了个相关API用法，问完接着排查
+- 做决定（选offer、选方案、买东西），主线在比较几个选项，中途深入聊某一个选项的细节
+- 长期把AI当助手用，一个对话开很久，过了几天想找回之前问过的某个具体问题
+- 备考、学习，主线在过知识点，中途冒出"这个词到底什么意思"的疑问
 
-1. 打开 Chrome，进入 `chrome://extensions`
-2. 右上角打开"开发者模式"
-3. 点"加载已解压的扩展程序"
-4. 选择这个文件夹（`ai-conversation-mindmap`）
-5. 第一次装上的瞬间，会自动弹出一个新标签页，让你选"中文"还是"English"，选完就设置好了
-6. 打开 chatgpt.com / claude.ai / gemini.google.com 中的任意一个，点一下浏览器右上角这个插件的图标，
-   侧边栏就会打开
+## 功能
 
-如果你之前已经装过这个插件（比如照着之前的版本装的），现在只是替换文件夹再点"重新加载"，
-浏览器认为这是"更新"不是"全新安装"，语言选择页面不会自动弹出。这种情况下有两种办法测试这个功能：
-- 直接在地址栏打开 `chrome-extension://你的插件ID/welcome.html`（插件ID在`chrome://extensions`那个插件卡片上能看到）
-- 或者先把这个插件从`chrome://extensions`里"移除"，再重新走一次"加载已解压的扩展程序"，这样就是全新安装了
+- 手动标记：点哪条消息，哪条就上图，标的时候自己写一句简短标题
+- 自动记录：开了之后，每次按Enter发问就自动记一笔，不用自己点
+- 主线/分支：默认接着主线并列往下排，想分岔时点一下开关，下一条单独挂一支，标完自动恢复
+- 点地图上的节点，直接跳回页面里对应的那条消息
+- 撤销 / 重做、双击改名、删除节点、折叠分支
+- 装的时候选一次中文还是English，界面跟着走
 
-## 使用方法
+## 怎么用
 
-### 自动模式（推荐先试这个）
+1. 装好插件，打开ChatGPT / Claude / Gemini，点插件图标打开侧边栏
+2. 开"自动记录"，正常聊天，每次发问都会自动记到地图上
+3. 想问岔开的问题：先点"下一条：子问题"，问完它单独分一支，之后自动恢复成接着主线排
+4. 想回某个之前问的问题：点地图上对应的点，自动跳回去
 
-1. 在侧边栏点一下"🤖 自动记录：关"，变成"🤖 自动记录：开"（绿色）
-2. 回到对话页面正常打字提问，按Enter发送
-3. 等AI开始回复之后，侧边栏的树里会自动多出一个节点，标题就是你刚打的那句话（自动截取前24个字），
-   默认跟上一条**并列**（主线继续往下走，不会越问越深）
-4. 想回到之前问的某个问题：直接点侧边栏里对应的节点，页面会自动滚动过去，同时"当前位置"也会切回那个节点，
-   后面接着问的新问题就会接着从那个节点的位置并列下去
-5. 真的要问一个分支问题（钻进当前这条的细节里）：先点一下"🔀 下一条：并列"切成"🔀 下一条：子问题"（紫色），
-   再去问那个分支问题，它就会变成当前节点的子节点。标完这一条会自动变回"并列"，不用每次手动关
-6. 开着自动模式的同时，"🖊 手动标记：关/开"按钮仍然能用，可以额外手动标记一些自动模式没抓到的东西（比如AI回答里的某一段）
+## 安装（开发者模式）
 
-### 手动模式
-
-1. 在侧边栏点"🖊 手动标记：关"，变成"🖊 手动标记：开"
-2. 回到对话页面，点你想记录的那条消息（鼠标移上去会有橙色虚线框提示）
-3. 会弹出一个小输入框，上面写着"将归入：xxx（并列/子问题）"，默认填了该消息开头的一截文字，
-   把标题改成你想要的简短描述，回车或点"✓ 加入导图"确认
-4. 想让这一条变成分支（子问题）：标记之前先点侧边栏的"🔀 下一条：并列"切成"子问题"状态，再去点要标记的消息
-5. 标记完一轮记得把"🖊 手动标记"点回"关"，免得不小心点到页面别的按钮（标记模式下点击会被拦截）
-
-### 两种模式都适用
-
-- 节点写错了，双击它就能改标题；点节点后面的🗑可以单独删除这个节点（如果它底下还有子节点，会先问你要不要一起删）
-- 分支太多看着乱，点节点前面的小箭头可以折叠收起
-- 标记、删除、改名、清空这些操作如果做错了，点"↶ 撤销"退回上一步，可以连续点撤销好几步；
-  撤销多了想要回来，点"↷ 重做"往回走
-
-## 工作原理（为什么是手动标记，不是自动识别）
-
-ChatGPT、Claude 这些网站的页面结构会不定期改版，如果写死去抓它们的 DOM 结构（比如"每个用户消息是哪个 class"），
-过一段时间很可能就失效，需要不断维护。所以手动模式换了个思路：让你自己点要标记的消息，
-插件只负责记住"你点的是哪个、它的父节点是谁、文字内容是什么"，不依赖任何网站私有的 DOM 结构。
-
-自动模式的检测方式也是同样的思路，不依赖具体网站的DOM结构：盯着的是"你在输入框按了Enter"这个动作本身
-（不管是哪个网站，问问题基本都是在文本框里打字然后Enter发送），抓到这个动作之后再去最近新增的页面元素里找一个
-文字对得上的，把它和你刚才打的那句话关联起来。这样换网站、网站改版都基本不受影响。
-
-数据按"网址"存在浏览器本地（`chrome.storage.local`），不同对话互不影响。自动记录的开关是全局的（所有对话共用一个开关状态）。
+1. 打开 `chrome://extensions`，右上角开"开发者模式"
+2. 点"加载已解压的扩展程序"，选这个文件夹
+3. 第一次装上会自动弹一个页面，选中文还是English
+4. 打开支持的AI对话页面，点插件图标，侧边栏就出来了
 
 ## 已知限制
 
-- **语言只在安装时选一次**：界面文字只跟着这个选择走，没有侧边栏里的常驻切换开关。想换语言的话，
-  到`chrome://extensions`找到这个插件，点"详细信息"里的"清除数据"（或者直接卸载重装），再重新选一次。
-  另外，已经创建好的节点标题（比如"🏁 对话起点"）不会跟着新选择重新翻译，只有新标记的节点会用新语言。
-- **撤销/重做记录不会跨页面刷新保留**：撤销栈和重做栈只存在浏览器这一次打开页面的内存里，
-  刷新页面（F5）之后这两个栈都会清空，但导图本身已保存的内容不受影响。
-- **自动模式只认"在输入框按Enter发送"**：如果某个网站发送是靠点鼠标点发送按钮、且没有用Enter，自动模式会漏记，
-  这种情况下手动标记一下就行。换行用的是Shift+Enter，不会被误记。
-- **自动模式偶尔会找错对应的页面元素**：极少数情况下，如果AI回答里恰好原文引用了你刚问的那句话，
-  可能会标记到错误的位置上，发现标错了直接点🗑删掉重标即可。
-- **刷新页面后**：之前打的标记点（DOM 属性）会丢失。跳转时会自动尝试用浏览器内置的文字查找做模糊匹配兜底，
-  但不保证 100% 准确，建议刷新后重新标记关键节点。
-- **超长对话的虚拟列表**：少数网站对很久以前的消息会做"滚出可视区域就从 DOM 卸载"的优化，
-  这种情况下跳转可能找不到对应元素。
-- **目前只在这几个域名生效**：`chatgpt.com`、`chat.openai.com`、`claude.ai`、`gemini.google.com`。
-  想用在别的网站上，把 `manifest.json` 里 `host_permissions` 和 `content_scripts.matches` 两处都加一行对应网址即可，
-  改完要在 `chrome://extensions` 里点一下重新加载。
+- 自动记录只认"在输入框按Enter发送"，靠点鼠标发送的网站会漏记，手动标一下就行
+- 刷新页面后，旧的标记点会失效，跳转会用浏览器自带的文字查找去兜底，不保证100%准确
+- 撤销/重做记录只存在这次打开页面的内存里，刷新页面会清空
+- 语言目前只在装的时候选一次，没有常驻切换开关
 
-## 后续可以加的东西（先列在这里，没做）
+## License
 
-- 导图整体导出成图片或 Markdown 大纲
-- 拖拽调整节点顺序
-- 给节点加颜色标签区分"已解决 / 待跟进"
+MIT
 
-## 发布到 GitHub
+---
 
-在这个文件夹里执行：
+<a name="english"></a>
 
-```bash
-git init
-git add .
-git commit -m "init: ChatMap"
-git branch -M main
-git remote add origin https://github.com/<你的用户名>/<仓库名>.git
-git push -u origin main
-```
+# ChatMap (English)
+
+The most annoying thing about chatting with an AI: you're mid-conversation, a related but tangential question pops into your head, you ask it, then try to get back to what you were actually asking before, and end up scrolling through a wall of chat history just to find it. The longer the chat, the worse it gets.
+
+ChatMap fixes that. It adds a sidebar to ChatGPT / Claude / Gemini that turns every question you ask into a node on a map. Main-line questions line up in a row; side questions branch off on their own. Want to pick up where you left off? Click the node, jump straight back. No scrolling.
+
+## Good for
+
+- Research and writing with AI: keep the main thread moving, dive into a detail, come back without losing the thread
+- Debugging code: stay on the bug, branch off to ask about a related API, then return to debugging
+- Making decisions (job offers, purchases, plans): compare options on the main line, dig into one option on a branch
+- Long-running AI assistant chats: find a question you asked days ago without endless scrolling
+- Studying or exam prep: stay on the main topic, branch off for "wait, what does this term mean"
+
+## Features
+
+- Manual marking: click any message to add it to the map, write your own short title
+- Auto record: turn it on and every question you send (press Enter) gets added automatically
+- Main line / branch: new nodes default to sibling of the current one (main line keeps going); flip a switch to make the next one a branch instead, resets automatically after
+- Click a node on the map to jump straight back to that message on the page
+- Undo / redo, double-click to rename, delete nodes, collapse branches
+- Pick Chinese or English once at install, the whole UI follows
+
+## How it works
+
+1. Install the extension, open ChatGPT / Claude / Gemini, click the icon to open the sidebar
+2. Turn on "Auto Record" and chat normally, every question gets added to the map
+3. Asking a side question: click "Next: Sub-question" first, it branches off, then resets to sibling mode automatically
+4. Want to revisit something: click its node on the map, jump straight back
+
+## Install (developer mode)
+
+1. Open `chrome://extensions`, turn on "Developer mode" top right
+2. Click "Load unpacked", select this folder
+3. A language picker opens automatically on first install, pick Chinese or English
+4. Open a supported AI chat page, click the extension icon, the sidebar opens
+
+## Known limitations
+
+- Auto record only catches "pressing Enter to send"; sites that send by clicking a button will be missed, mark those manually
+- Refreshing the page invalidates old marker links; jumping falls back to the browser's built-in text search, not 100% accurate
+- Undo/redo history only lives in memory for this page session, clears on refresh
+- Language is chosen once at install, no toggle yet
 
 ## License
 
